@@ -1,0 +1,39 @@
+package domain
+
+import (
+	"time"
+
+	"github.com/ImKairat-Golang-Lab/user-service/internal/models"
+	"github.com/ImKairat-Golang-Lab/user-service/internal/ports"
+)
+
+type User = models.User
+
+type UserService struct {
+	repo ports.UserRepository
+}
+
+func NewUserService(repo ports.UserRepository) *UserService {
+	return &UserService{repo: repo}
+}
+
+// 
+func (us *UserService) Register(email, password, name string) {
+	user := User{
+		Id:           "",
+		Email:        email,
+		PasswordHash: password,
+		Name:         name,
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
+	}
+	us.repo.Save(user)
+}
+
+func Login(email, password string) {}
+
+func GetProfile(id string) {}
+
+func UpdateProfile(id, name string) {}
+
+func DeleteProfile(id string) {}
