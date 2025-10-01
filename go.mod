@@ -1,4 +1,4 @@
-module github.com/ImKairat-Golang-Lab/user-service
+module github.com/ImKairat-Golang-Lab/users-service
 
 go 1.25.1
 

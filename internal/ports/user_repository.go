@@ -1,6 +1,6 @@
 package ports
 
-import domain "github.com/ImKairat-Golang-Lab/user-service/internal/models"
+import domain "github.com/ImKairat-Golang-Lab/users-service/internal/models"
 
 type User = domain.User
 

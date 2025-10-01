@@ -1,8 +1,8 @@
 package psql
 
 import (
-	"github.com/ImKairat-Golang-Lab/user-service/internal/models"
-	// "github.com/ImKairat-Golang-Lab/user-service/internal/ports"
+	"github.com/ImKairat-Golang-Lab/users-service/internal/models"
+	// "github.com/ImKairat-Golang-Lab/users-service/internal/ports"
 	"github.com/jmoiron/sqlx"
 )
 

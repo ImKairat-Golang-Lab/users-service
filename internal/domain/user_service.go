@@ -3,8 +3,8 @@ package domain
 import (
 	"time"
 
-	"github.com/ImKairat-Golang-Lab/user-service/internal/models"
-	"github.com/ImKairat-Golang-Lab/user-service/internal/ports"
+	"github.com/ImKairat-Golang-Lab/users-service/internal/models"
+	"github.com/ImKairat-Golang-Lab/users-service/internal/ports"
 )
 
 type User = models.User
