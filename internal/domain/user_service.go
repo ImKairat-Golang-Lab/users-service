@@ -17,13 +17,13 @@ func NewUserService(repo ports.UserRepository) *UserService {
 	return &UserService{repo: repo}
 }
 
-// 
-func (us *UserService) Register(email, password, name string) {
+//
+func (us *UserService) Register(email, password, login string) {
 	user := User{
 		Id:           "",
 		Email:        email,
 		PasswordHash: password,
-		Name:         name,
+		Login:         login,
 		CreatedAt:    time.Now(),
 		UpdatedAt:    time.Now(),
 	}

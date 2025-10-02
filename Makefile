@@ -5,3 +5,10 @@ run:
 
 fmt:
 	@gofmt -w .
+
+
+up:
+	@docker compose up -d
+
+down:
+	@docker compose down
