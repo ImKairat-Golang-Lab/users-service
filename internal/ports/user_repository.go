@@ -1,13 +1,18 @@
 package ports
 
-import domain "github.com/ImKairat-Golang-Lab/users-service/internal/models"
+import (
+	"context"
+	"github.com/ImKairat-Golang-Lab/users-service/internal/domain/entities"
+)
 
-type User = domain.User
+// Для читабельности добавил как алиас:
+type User = entities.User
 
+// Мост между доменом и адаптерами.
 type UserRepository interface {
-	Save(user User) error
-	FindById(id string) (User, error)
-	FindByEmail(email string) (User, error)
-	Update(user User) error
-	Delete(id string) error
+	Save(ctx context.Context, user User) error
+	FindById(ctx context.Context, id string) (User, error)
+	FindByEmail(ctx context.Context, email string) (User, error)
+	Update(ctx context.Context, user User) error
+	Delete(ctx context.Context, id string) error
 }

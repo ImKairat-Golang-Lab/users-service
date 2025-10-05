@@ -1,12 +1,14 @@
 package psql
 
 import (
-	"github.com/ImKairat-Golang-Lab/users-service/internal/models"
+	"context"
+
+	"github.com/ImKairat-Golang-Lab/users-service/internal/domain/entities"
 	// "github.com/ImKairat-Golang-Lab/users-service/internal/ports"
 	"github.com/jmoiron/sqlx"
 )
 
-type User = models.User
+type User = entities.User
 
 // type repo = ports.UserRepository
 
@@ -18,6 +20,6 @@ func NewPostgresUserRepository(db *sqlx.DB) *PostgresUserRepository {
 	return &PostgresUserRepository{db: db}
 }
 
-func (r *PostgresUserRepository) Save(user User) error {
+func (r *PostgresUserRepository) Save(ctx context.Context, user User) error {
 	return nil
 }
