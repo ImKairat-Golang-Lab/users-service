@@ -1,9 +1,10 @@
-package models
+package entities
 
 import (
 	"time"
 )
 
+// Логическая единица, с которой связано работа бизнес-процесса:
 type User struct {
 	Id           string    `json:"id"`
 	Email        string    `json:"email"`
