@@ -4,28 +4,48 @@ services:
     container_name: postgres_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-  
+
+  migrate:
+    image: migrate/migrate
+    container_name: migrate_service
+    restart: "no"
+    volumes:
+      - ./migrations:/migrations
+    entrypoint: >
+      sh -c "
+      echo 'Waiting for DB to be ready...' &&
+      for i in $(seq 1 30); do
+        pg_isready -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} && break
+        echo 'DB not ready yet...'
+        sleep 1
+      done &&
+      echo 'DB ready, running migrations...' &&
+      migrate -path /migrations -database postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?sslmode=disable up
+      "
+    depends_on:
+      - db
+
   app:
     build: .
     container_name: go_app
     ports:
       - "8080:8080"
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_USER: myuser
-      DB_PASSWORD: mypassword
-      DB_NAME: mydatabase
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     depends_on:
-      - db
-
+      migrate:
+        condition: service_completed_successfully
 
 volumes:
   db_data:
