@@ -13,11 +13,11 @@ type UserHandler struct {
 	service *services.UserService
 }
 
-func NewUsUserHandler(service *services.UserService) *UserHandler {
+func NewUserHandler(service *services.UserService) *UserHandler {
 	return &UserHandler{service: service}
 }
 
-func (h *UserHandler) RegisterUser(w http.ResponseWriter, r *http.Request) {
+func (h *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
 	var req dto.RegisterRequest
 	// Парсим тела запроса в DTO (Data Transfer Object)
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
