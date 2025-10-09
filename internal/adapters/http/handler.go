@@ -16,6 +16,6 @@ func NewHttpHandler(mux *chi.Mux, handler UserHandler) *HttpHandler {
 
 func (h *HttpHandler) Handle() {
 	h.mux.Group(func(r chi.Router) {
-		r.Post("/register", h.userHandler.RegisterUser)
+		r.Post("/register", h.userHandler.UserRegister)
 	})
 }

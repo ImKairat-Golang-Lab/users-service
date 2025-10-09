@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/ImKairat-Golang-Lab/users-service/internal/domain/entities"
@@ -22,7 +23,11 @@ func NewUserService(repo ports.UserRepository) *UserService {
 
 //
 func (us *UserService) Register(ctx context.Context, email, password, login string) error {
-	id := "" // Необходимо реализовать функцию для генерации уникального ID
+	if us.repo == nil {
+		return errors.New("UserRepository doesn't initialized")
+	}
+	// TODO:Необходимо реализовать функционал для генерации уникального ID для пользователья 
+	id := ""
 
 	user := User{
 		Id:           id,

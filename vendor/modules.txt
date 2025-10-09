@@ -5,3 +5,5 @@ github.com/go-chi/chi/v5
 ## explicit; go 1.10
 github.com/jmoiron/sqlx
 github.com/jmoiron/sqlx/reflectx
+# github.com/lib/pq v1.10.9
+## explicit; go 1.13
