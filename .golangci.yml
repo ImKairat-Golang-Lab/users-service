@@ -1,0 +1,14 @@
+version: "2"
+
+linters:
+  enable:
+    - depguard
+  settings:
+    depguard:
+      rules:
+        domain-restriction:
+          files:
+            - "**/internal/domain/**/*.go"
+          deny:
+            - pkg: "github.com/ImKairat-Golang-Lab/users-service/internal/adapters/**"
+              desc: "The domain layer should not use the adapter layer in Hexagonal architecture."
