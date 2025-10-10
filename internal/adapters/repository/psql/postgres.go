@@ -24,7 +24,7 @@ func NewPostgresUserRepository(db *sqlx.DB) *PostgresUserRepository {
 
 func (r *PostgresUserRepository) Save(ctx context.Context, user User) error {
 	// TODO: добавить логику для получения названия таблицы (users)
-	var user_model UserModel = UserModel{
+	var user_model = UserModel{
 		Id: user.Id,
 		Email: user.Email,
 		PasswordHash: user.PasswordHash,
