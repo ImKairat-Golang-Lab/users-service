@@ -11,7 +11,6 @@ type MemoryUserRepository struct {
 	repo ports.UserRepository
 }
 
-
 func NewMemoryUserRepository(repo *ports.UserRepository) *MemoryUserRepository {
 	return &MemoryUserRepository{repo: *repo}
 }
