@@ -4,9 +4,8 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-
 type HttpHandler struct {
-	mux *chi.Mux
+	mux         *chi.Mux
 	userHandler UserHandler
 }
 

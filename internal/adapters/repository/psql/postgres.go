@@ -25,12 +25,12 @@ func NewPostgresUserRepository(db *sqlx.DB) *PostgresUserRepository {
 func (r *PostgresUserRepository) Save(ctx context.Context, user User) error {
 	// TODO: добавить логику для получения названия таблицы (users)
 	var user_model = UserModel{
-		Id: user.Id,
-		Email: user.Email,
+		Id:           user.Id,
+		Email:        user.Email,
 		PasswordHash: user.PasswordHash,
-		Login: user.Login,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
+		Login:        user.Login,
+		CreatedAt:    user.CreatedAt,
+		UpdatedAt:    user.UpdatedAt,
 	}
 
 	query := `INSERT INTO users (id, email, password_hash, login, created_at, updated_at)
@@ -40,6 +40,6 @@ func (r *PostgresUserRepository) Save(ctx context.Context, user User) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
 }

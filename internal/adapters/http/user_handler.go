@@ -8,7 +8,6 @@ import (
 	"github.com/ImKairat-Golang-Lab/users-service/internal/domain/services"
 )
 
-
 type UserHandler struct {
 	service *services.UserService
 }
