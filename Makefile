@@ -1,4 +1,5 @@
 
+.PHONY: run fmt up down lint generate-mocks test prep2commit
 run:
 	@go run ./cmd/server/main.go
 
@@ -22,3 +23,5 @@ generate-mocks:
 
 test:
 	@go test ./...
+
+prep2commit: lint test
