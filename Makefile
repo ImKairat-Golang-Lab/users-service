@@ -24,4 +24,4 @@ generate-mocks:
 test:
 	@go test ./...
 
-prep2commit: lint test
+prep2commit: fmt lint test

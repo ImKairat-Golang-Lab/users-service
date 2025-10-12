@@ -8,9 +8,13 @@ import (
 type User = entities.User
 
 type MemoryUserRepository struct {
-	repo ports.UserRepository
+	repo   ports.UserRepository
+	logger ports.Logger
 }
 
-func NewMemoryUserRepository(repo *ports.UserRepository) *MemoryUserRepository {
-	return &MemoryUserRepository{repo: *repo}
+func NewMemoryUserRepository(repo *ports.UserRepository, logger ports.Logger) *MemoryUserRepository {
+	return &MemoryUserRepository{
+		repo:   *repo,
+		logger: logger,
+	}
 }
