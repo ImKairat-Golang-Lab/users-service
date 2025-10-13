@@ -22,57 +22,48 @@ func NewUserHandler(service *services.UserService, logger ports.Logger) *UserHan
 }
 
 func (uh *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
-	var req dto.RegisterRequest
+	defer r.Body.Close()
 	component := "httpHandler/userRegister"
+	var req dto.RegisterRequest
+
+	// 
+	if r.Method != http.MethodPost {
+		msg := "method not allowed"
+		status_code := http.StatusMethodNotAllowed
+
+		uh.logger.Warn(msg, logFields(r, component, status_code))
+		writeJSON(w, status_code, dto.ErrorResponse{Error: msg})
+		return
+	}
 
 	// Парсим тела запроса в DTO (Data Transfer Object)
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		msg := "Invalid request body"
 		status_code := http.StatusBadRequest
-		fields := map[string]any{
-			"component":   component,
-			"status_code": status_code,
-			"method":      r.Method,
-			"endpoint":    r.URL.Path,
-			"user_agent":  r.UserAgent(),
-		}
 
-		uh.logger.Warn(msg, fields)
-		http.Error(w, msg, status_code)
+		uh.logger.Warn(err.Error(), logFields(r, component, status_code))
+		writeJSON(w, status_code, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 	// Валидируем тело запроса
 	if req.Login == "" || req.Email == "" || req.Password == "" {
 		msg := "All fields are requaired"
 		status_code := http.StatusBadRequest
-		fields := map[string]any{
-			"component":   component,
-			"status_code": status_code,
-			"method":      r.Method,
-			"endpoint":    r.URL.Path,
-			"user_agent":  r.UserAgent(),
-		}
 
-		uh.logger.Warn(msg, fields)
-		http.Error(w, msg, status_code)
+		uh.logger.Warn(msg, logFields(r, component, status_code))
+		writeJSON(w, status_code, dto.ErrorResponse{Error: msg})
 		return
 	}
 	// Вызываем доменную логику через порт
 	if err := uh.service.Register(r.Context(), req.Email, req.Password, req.Login); err != nil {
-		msg := err.Error()
 		status_code := http.StatusInternalServerError
-		fields := map[string]any{
-			"component":   component,
-			"status_code": status_code,
-			"method":      r.Method,
-			"endpoint":    r.URL.Path,
-			"user_agent":  r.UserAgent(),
-		}
 
-		uh.logger.Warn(msg, fields)
-		http.Error(w, msg, status_code)
+		uh.logger.Warn(err.Error(), logFields(r, component, status_code))
+		writeJSON(w, status_code, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 	// Ответ
-	w.WriteHeader(http.StatusCreated)
+	msg := "User registered successfully"
+	status_code := http.StatusCreated
+	uh.logger.Info(msg, logFields(r, component, status_code))
+	writeJSON(w, status_code, msg)
 }
