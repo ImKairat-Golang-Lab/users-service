@@ -1,10 +1,11 @@
 package http
 
 import (
-	"net/http"
 	"encoding/json"
-)
+	"net/http"
 
+	ports "github.com/ImKairat-Golang-Lab/users-service/internal/ports"
+)
 
 func logFields(r *http.Request, component string, statusCode int) map[string]any {
 	return map[string]any{
@@ -16,8 +17,12 @@ func logFields(r *http.Request, component string, statusCode int) map[string]any
 	}
 }
 
-func writeJSON(w http.ResponseWriter, statusCode int, data any) {
+func writeJSON(w http.ResponseWriter, logger ports.Logger, statusCode int, data any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	json.NewEncoder(w).Encode(data)
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		logger.Warn("failed to encode JSON response", map[string]any{
+			"error": err.Error(),
+		})
+	}
 }

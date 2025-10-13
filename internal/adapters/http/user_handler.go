@@ -22,17 +22,23 @@ func NewUserHandler(service *services.UserService, logger ports.Logger) *UserHan
 }
 
 func (uh *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
+	defer func() {
+		if err := r.Body.Close(); err != nil {
+			uh.logger.Warn("failed to close request body", map[string]any{
+				"error": err.Error(),
+			})
+		}
+	}()
 	component := "httpHandler/userRegister"
 	var req dto.RegisterRequest
 
-	// 
+	//
 	if r.Method != http.MethodPost {
 		msg := "method not allowed"
 		status_code := http.StatusMethodNotAllowed
 
 		uh.logger.Warn(msg, logFields(r, component, status_code))
-		writeJSON(w, status_code, dto.ErrorResponse{Error: msg})
+		writeJSON(w, uh.logger, status_code, dto.ErrorResponse{Error: msg})
 		return
 	}
 
@@ -41,7 +47,7 @@ func (uh *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
 		status_code := http.StatusBadRequest
 
 		uh.logger.Warn(err.Error(), logFields(r, component, status_code))
-		writeJSON(w, status_code, dto.ErrorResponse{Error: err.Error()})
+		writeJSON(w, uh.logger, status_code, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 	// Валидируем тело запроса
@@ -50,7 +56,7 @@ func (uh *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
 		status_code := http.StatusBadRequest
 
 		uh.logger.Warn(msg, logFields(r, component, status_code))
-		writeJSON(w, status_code, dto.ErrorResponse{Error: msg})
+		writeJSON(w, uh.logger, status_code, dto.ErrorResponse{Error: msg})
 		return
 	}
 	// Вызываем доменную логику через порт
@@ -58,12 +64,12 @@ func (uh *UserHandler) UserRegister(w http.ResponseWriter, r *http.Request) {
 		status_code := http.StatusInternalServerError
 
 		uh.logger.Warn(err.Error(), logFields(r, component, status_code))
-		writeJSON(w, status_code, dto.ErrorResponse{Error: err.Error()})
+		writeJSON(w, uh.logger, status_code, dto.ErrorResponse{Error: err.Error()})
 		return
 	}
 	// Ответ
 	msg := "User registered successfully"
 	status_code := http.StatusCreated
 	uh.logger.Info(msg, logFields(r, component, status_code))
-	writeJSON(w, status_code, msg)
+	writeJSON(w, uh.logger, status_code, msg)
 }

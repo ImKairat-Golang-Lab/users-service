@@ -11,15 +11,15 @@ import (
 type HTTPServer struct {
 	mux         *http.ServeMux
 	userHandler UserHandler
-	logger ports.Logger
+	logger      ports.Logger
 }
 
 func NewHTTPServer(handler UserHandler, logger ports.Logger) *HTTPServer {
 	mux := http.NewServeMux()
 	s := &HTTPServer{
-		mux: mux,
+		mux:         mux,
 		userHandler: handler,
-		logger: logger,
+		logger:      logger,
 	}
 	s.registerRoutes()
 
