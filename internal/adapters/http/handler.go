@@ -4,22 +4,18 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-
-	ports "github.com/ImKairat-Golang-Lab/users-service/internal/ports"
 )
 
 type HTTPServer struct {
 	mux         *http.ServeMux
 	userHandler UserHandler
-	logger      ports.Logger
 }
 
-func NewHTTPServer(handler UserHandler, logger ports.Logger) *HTTPServer {
+func NewHTTPServer(handler UserHandler) *HTTPServer {
 	mux := http.NewServeMux()
 	s := &HTTPServer{
 		mux:         mux,
 		userHandler: handler,
-		logger:      logger,
 	}
 	s.registerRoutes()
 
@@ -29,9 +25,9 @@ func NewHTTPServer(handler UserHandler, logger ports.Logger) *HTTPServer {
 func (s *HTTPServer) Start(ip net.IP, port int) error {
 	addr := fmt.Sprintf("%s:%d", ip.String(), port)
 
-	s.logger.Info("starting HTTP server", map[string]any{"addr": addr})
+	s.userHandler.logger.Info("starting HTTP server", map[string]any{"addr": addr})
 	if err := http.ListenAndServe(addr, s.mux); err != nil {
-		s.logger.Error("server failed", map[string]any{"error": err})
+		s.userHandler.logger.Error("server failed", map[string]any{"error": err})
 		return err
 	}
 

@@ -1,8 +1,7 @@
 
-.PHONY: run fmt up down lint generate-mocks test prep2commit
+.PHONY: run fmt up down lint generate-mocks test prep2commit init
 run:
 	@go run ./cmd/server/main.go
-
 
 fmt:
 	@gofmt -w .
@@ -25,3 +24,8 @@ test:
 	@go test ./...
 
 prep2commit: fmt lint test
+
+init:
+	@go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+	@go get github.com/golang/mock/gomock@v1.6.0
+	@go install github.com/golang/mock/mockgen@latest
