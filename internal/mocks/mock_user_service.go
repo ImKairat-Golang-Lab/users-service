@@ -35,9 +35,11 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // Register mocks base method.
-func (m *MockUserService) Register(ctx context.Context, email, password, login string) {
+func (m *MockUserService) Register(ctx context.Context, email, password, login string) error {
 	m.ctrl.T.Helper()
-	m.ctrl.Call(m, "Register", ctx, email, password, login)
+	ret := m.ctrl.Call(m, "Register", ctx, email, password, login)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
 // Register indicates an expected call of Register.

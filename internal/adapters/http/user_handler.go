@@ -5,16 +5,15 @@ import (
 	"net/http"
 
 	dto "github.com/ImKairat-Golang-Lab/users-service/internal/adapters/http/dto"
-	services "github.com/ImKairat-Golang-Lab/users-service/internal/domain/services"
 	ports "github.com/ImKairat-Golang-Lab/users-service/internal/ports"
 )
 
 type UserHandler struct {
-	service *services.UserService
+	service ports.UserService
 	logger  ports.Logger
 }
 
-func NewUserHandler(service *services.UserService, logger ports.Logger) *UserHandler {
+func NewUserHandler(service ports.UserService, logger ports.Logger) *UserHandler {
 	return &UserHandler{
 		service: service,
 		logger:  logger,
