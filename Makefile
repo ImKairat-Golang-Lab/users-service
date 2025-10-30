@@ -21,7 +21,7 @@ generate-mocks:
 	@mockgen -source=internal/domain/utils/clock.go -destination=internal/mocks/mock_clock.go -package=mocks
 
 test:
-	@go test ./...
+	@go test -parallel 4 ./...
 
 prep2commit: fmt lint test
 
