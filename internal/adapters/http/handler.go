@@ -2,7 +2,6 @@ package http
 
 import (
 	"fmt"
-	"net"
 	"net/http"
 )
 
@@ -22,8 +21,8 @@ func NewHTTPServer(handler UserHandler) *HTTPServer {
 	return s
 }
 
-func (s *HTTPServer) Start(ip net.IP, port int) error {
-	addr := fmt.Sprintf("%s:%d", ip.String(), port)
+func (s *HTTPServer) Start(ip string, port int) error {
+	addr := fmt.Sprintf("%s:%d", ip, port)
 
 	s.userHandler.logger.Info("starting HTTP server", map[string]any{"addr": addr})
 	if err := http.ListenAndServe(addr, s.mux); err != nil {

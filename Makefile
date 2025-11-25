@@ -26,6 +26,7 @@ test:
 prep2commit: fmt lint test
 
 init:
+	@go mod tidy
 	@go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 	@go get github.com/golang/mock/gomock@v1.6.0
 	@go install github.com/golang/mock/mockgen@latest

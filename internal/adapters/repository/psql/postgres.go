@@ -52,3 +52,19 @@ func (ur *PostgresUserRepository) Save(ctx context.Context, user User) error {
 
 	return nil
 }
+
+func (ur *PostgresUserRepository) Delete(ctx context.Context, id string) error {
+	return nil
+}
+
+func (ur *PostgresUserRepository) FindById(ctx context.Context, id string) (User, error) {
+	return User{}, nil
+}
+
+func (ur *PostgresUserRepository) FindByEmail(ctx context.Context, email string) (User, error) {
+	return User{}, nil
+}
+
+func (ur *PostgresUserRepository) Update(ctx context.Context, user User) error {
+	return nil
+}
