@@ -42,3 +42,22 @@ func TestRegister(t *testing.T) {
 		t.Errorf("expected no error, got %v", err)
 	}
 }
+
+func TestRegister_RepoNotInit(t *testing.T) {
+	service := NewUserService(nil, nil)
+	err := service.Register(
+		context.Background(),
+		"test@example.com",
+		"hashed_password",
+		"test_user",
+	)
+
+	if err == nil {
+		t.Error("expected error, got nil")
+	}
+
+	expectedErr := "UserRepository doesn't initialized"
+	if err.Error() != expectedErr {
+		t.Errorf("expected error %s, got %s", expectedErr, err.Error())
+	}
+}
